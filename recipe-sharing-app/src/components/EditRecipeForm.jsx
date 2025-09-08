@@ -18,11 +18,20 @@ const EditRecipeForm = () => {
     }
   }, [recipe])
 
-  if (!recipe) return <div>Recipe not found. <a href="/">Back</a></div>
+  if (!recipe) {
+    return (
+      <div>
+        <p>Recipe not found.</p>
+        <a href="/">Back</a>
+      </div>
+    )
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (event) => {
+    event.preventDefault()   // ✅ now included
+
     if (!title.trim() || !description.trim()) return
+
     updateRecipe({ id, title: title.trim(), description: description.trim() })
     navigate(`/recipes/${id}`)
   }
