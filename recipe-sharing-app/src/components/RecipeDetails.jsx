@@ -1,45 +1,33 @@
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { useRecipeStore } from '../store/recipeStore.js'
-import DeleteRecipeButton from './DeleteRecipeButton.jsx'
+import { useParams } from "react-router-dom";
+import { useRecipeStore } from "../recipeStore";
 
 const RecipeDetails = () => {
-  const { id } = useParams()
-  const recipe = useRecipeStore((s) => s.recipes.find((r) => r.id === id))
-  const navigate = useNavigate()
+  const { recipeId } = useParams();
+  const recipes = useRecipeStore((state) => state.recipes);
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
+
+  const recipe = recipes.find((r) => r.id === recipeId);
 
   if (!recipe) {
-    return (
-      <div>
-        <p>Recipe not found.</p>
-        <Link to="/">Back home</Link>
-      </div>
-    )
+    return <p>Recipe not found.</p>;
   }
+
+  const isFavorite = favorites.includes(recipe.id);
 
   return (
     <div>
-      <h1>{recipe.title}</h1>
-      <p><strong>ID:</strong> {recipe.id}</p>
+      <h2>{recipe.title}</h2>
       <p>{recipe.description}</p>
 
-      <div style={{ marginTop: 12 }}>
-        <Link to={`/recipes/${id}/edit`} style={{ marginRight: 8 }}>
-          Edit
-        </Link>
-
-        <DeleteRecipeButton
-          id={id}
-          onDeleted={() => {
-            navigate('/')
-          }}
-        />
-      </div>
-
-      <div style={{ marginTop: 20 }}>
-        <Link to="/">Back to list</Link>
-      </div>
+      {isFavorite ? (
+        <button onClick={() => removeFavorite(recipe.id)}>Remove Favorite</button>
+      ) : (
+        <button onClick={() => addFavorite(recipe.id)}>Add to Favorites</button>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default RecipeDetails
+export default RecipeDetails;
