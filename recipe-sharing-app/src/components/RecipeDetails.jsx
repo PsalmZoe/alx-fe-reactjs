@@ -19,6 +19,7 @@ const RecipeDetails = () => {
   return (
     <div>
       <h1>{recipe.title}</h1>
+      <p><strong>ID:</strong> {recipe.id}</p>
       <p>{recipe.description}</p>
 
       <div style={{ marginTop: 12 }}>
@@ -29,7 +30,6 @@ const RecipeDetails = () => {
         <DeleteRecipeButton
           id={id}
           onDeleted={() => {
-            // After delete, go back home
             navigate('/')
           }}
         />
