@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import recipesData from "../data.json";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
@@ -8,6 +9,14 @@ export default function HomePage() {
     // Simulating fetch from local JSON
     setRecipes(recipesData);
   }, []);
+
+<Link to={`/recipe/${recipe.id}`} key={recipe.id}>
+  <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all p-4">
+    <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded-md mb-3" />
+    <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
+    <p className="text-gray-600">{recipe.summary}</p>
+  </div>
+</Link>
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
