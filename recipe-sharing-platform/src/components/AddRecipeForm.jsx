@@ -5,27 +5,42 @@ export default function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+
+  // ✅ Validation function
+  const validate = () => {
+    const newErrors = {};
+
+    if (!title.trim()) newErrors.title = "Recipe title is required.";
+    if (!ingredients.trim())
+      newErrors.ingredients = "Ingredients field cannot be empty.";
+    if (!steps.trim())
+      newErrors.steps = "Preparation steps field cannot be empty.";
+
+    // Optional: require at least 2 ingredients
+    if (ingredients && ingredients.split(",").length < 2)
+      newErrors.ingredients = "Please include at least two ingredients.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate()) return;
 
-    if (!title || !ingredients || !steps) {
-      setError("Please fill out all fields before submitting.");
-      return;
-    }
-
-    // Example of data handling
+    // Example submission
     console.log({
       title,
       ingredients: ingredients.split(","),
       steps,
     });
 
-    setError("");
+    // Reset fields and errors
     setTitle("");
     setIngredients("");
     setSteps("");
+    setErrors({});
   };
 
   return (
@@ -38,8 +53,6 @@ export default function AddRecipeForm() {
           Add a New Recipe
         </h2>
 
-        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Recipe Title</label>
           <input
@@ -48,6 +61,9 @@ export default function AddRecipeForm() {
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -58,6 +74,9 @@ export default function AddRecipeForm() {
             placeholder="Separate each ingredient with a comma"
             className="w-full border border-gray-300 rounded-lg p-2 h-24 focus:ring focus:ring-blue-200"
           />
+          {errors.ingredients && (
+            <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
+          )}
         </div>
 
         <div className="mb-6">
@@ -67,6 +86,9 @@ export default function AddRecipeForm() {
             onChange={(e) => setSteps(e.target.value)}
             className="w-full border border-gray-300 rounded-lg p-2 h-32 focus:ring focus:ring-blue-200"
           />
+          {errors.steps && (
+            <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
+          )}
         </div>
 
         <button
