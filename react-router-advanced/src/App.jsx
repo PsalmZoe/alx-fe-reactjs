@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import Profile from "./pages/Profile.jsx";
-import ProfileDetails from "./pages/ProfileDetails.jsx";
-import ProfileSettings from "./pages/ProfileSettings.jsx";
+import Profile from "./components/Profile.jsx";
+import ProfileDetails from "./components/ProfileDetails.jsx";
+import ProfileSettings from "./components/ProfileSettings.jsx";
 import Post from "./pages/Post.jsx";
 import Login from "./pages/Login.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
